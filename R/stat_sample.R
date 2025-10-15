@@ -18,7 +18,10 @@ StatSample <- ggproto("StatSample", StatSf,
                                      geometry = subdivide(geometry, d=c(n,n)), 
                                      across(everything())
                                    ) |>
-                                   mutate(fill = as.double(generate(fill, 1))) |>
+                                   # mutate(fill = as.double(generate(fill, 1))) |>
+                                   dplyr::rowwise() |>
+                                   mutate(fill = sample(unlist(fill), size = 1)) |> 
+                                   ungroup() |>
                                    st_sf() |>
                                    st_zm()
                                  
